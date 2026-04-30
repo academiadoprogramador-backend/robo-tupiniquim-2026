@@ -25,41 +25,63 @@
     D = L
 */
 
-int posicaoX = 1;
-int posicaoY = 2;
-char orientacao = 'N';
-
-string comandoCompleto = "EMEMEMEMM";
-
-Console.WriteLine($"Posição inicial: {posicaoX} {posicaoY} {orientacao}");
-
-char[] instrucoes = comandoCompleto.ToCharArray();
-
-for (int contador = 0; contador < instrucoes.Length; contador++)
+// atributos que irão informar a posição do robô
+static class Robo
 {
-    char instrucao = instrucoes[contador];
+    public static int posicaoX;
+    public static int posicaoY;
+    public static char orientacao;
 
-    if (instrucao == 'E')
+    public static void Configurar(int pX, int pY, char o)
     {
-        if (orientacao == 'N') orientacao = 'O';
-        else if (orientacao == 'O') orientacao = 'S';
-        else if (orientacao == 'S') orientacao = 'L';
-        else if (orientacao == 'L') orientacao = 'N';
+        posicaoX = pX;
+        posicaoY = pY;
+        orientacao = o;
     }
-    else if (instrucao == 'D')
+
+    public static void Executar(string comandoCompleto)
     {
-        if (orientacao == 'N') orientacao = 'L';
-        else if (orientacao == 'L') orientacao = 'S';
-        else if (orientacao == 'S') orientacao = 'O';
-        else if (orientacao == 'O') orientacao = 'N';
-    }
-    else if (instrucao == 'M')
-    {
-        if (orientacao == 'N') posicaoY++;
-        else if (orientacao == 'S') posicaoY--;
-        else if (orientacao == 'O') posicaoX--;
-        else if (orientacao == 'L') posicaoX++;
+        char[] instrucoes = comandoCompleto.ToCharArray();
+
+        for (int contador = 0; contador < instrucoes.Length; contador++)
+        {
+            char instrucao = instrucoes[contador];
+
+            if (instrucao == 'E')
+            {
+                if (orientacao == 'N') orientacao = 'O';
+                else if (orientacao == 'O') orientacao = 'S';
+                else if (orientacao == 'S') orientacao = 'L';
+                else if (orientacao == 'L') orientacao = 'N';
+            }
+            else if (instrucao == 'D')
+            {
+                if (orientacao == 'N') orientacao = 'L';
+                else if (orientacao == 'L') orientacao = 'S';
+                else if (orientacao == 'S') orientacao = 'O';
+                else if (orientacao == 'O') orientacao = 'N';
+            }
+            else if (instrucao == 'M')
+            {
+                if (orientacao == 'N') posicaoY++;
+                else if (orientacao == 'S') posicaoY--;
+                else if (orientacao == 'O') posicaoX--;
+                else if (orientacao == 'L') posicaoX++;
+            }
+        }
     }
 }
 
-Console.WriteLine($"Posição final: {posicaoX} {posicaoY} {orientacao}");
+class Program
+{
+    static void Main()
+    {
+        Robo.Configurar(1, 2, 'N');
+
+        Console.WriteLine($"Posição inicial: {Robo.posicaoX} {Robo.posicaoY} {Robo.orientacao}");
+
+        Robo.Executar("EMEMEMEMM");
+
+        Console.WriteLine($"Posição final: {Robo.posicaoX} {Robo.posicaoY} {Robo.orientacao}");
+    }
+}
